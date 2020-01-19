@@ -1,5 +1,3 @@
 <div *ngFor="let crib of cribs">
-    <h3>{{crib.address}}</h3>
-    <h4>{{crib.price}}</h4>
-    <p>{{crib.type}}</p>
+    <app-crib-card [crib]="crib" class="col-sm-4"></app-crib-card>
 </div>
