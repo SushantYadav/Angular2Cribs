@@ -1,6 +1,7 @@
-.thumbnail{
-    min-height: 380px;
+.thumbnail {
+  min-height: 380px;
 }
-.label{
-    display: inline-block;
+
+.label {
+  display: inline-block;
 }

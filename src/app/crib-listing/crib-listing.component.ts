@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { CribsService } from 'src/app/services/cribs.service';
+import { CribsService } from './../services/cribs.service';
+import { UtilService } from './../services/util.service';
+import { SortByPipe } from '../pipes/sort-by.pipe';
+import { Crib } from './../crib';
 
 @Component({
   selector: 'app-crib-listing',
@@ -9,25 +11,34 @@ import { CribsService } from 'src/app/services/cribs.service';
 })
 export class CribListingComponent implements OnInit {
 
-  cribs: Array<any>;
-  error: string;
+  cribs: Array<Crib> = [];
+  error: string = '';
+  sortField: string = 'price';
+  sortDirection: string = 'asc';
+  sortFields: Array<string> = [
+    'address',
+    'area',
+    'bathrooms',
+    'bedrooms',
+    'price',
+    'type'
+  ];
 
   constructor(
-    private http: HttpClient,
-    private CribsService: CribsService
+    private cribsService: CribsService,
+    private utilService: UtilService
   ) { }
 
   ngOnInit() {
-    this.http.get('/assets/data/cribs.json')
-      //.map(res => res)
+    this.cribsService.getAllCribs()
       .subscribe(
         data => this.cribs = data,
         error => this.error = error.statusText
       );
-    this.CribsService.getAllCribs()
-      .subscribe(
-        data => this.cribs = data,
-        error => this.error = error.statusText
-      );
+
+    this.cribsService.newCribSubject.subscribe(
+      data => this.cribs = [data, ...this.cribs]
+    );
   }
+
 }
